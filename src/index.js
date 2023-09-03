@@ -11,6 +11,7 @@ axios.defaults.baseURL = 'https://api.thecatapi.com/v1';
 const breedSelector = document.querySelector('.breed-select');
 const catInfo = document.querySelector('.cat-info');
 const catLoader = document.querySelector('.loader');
+
 const errorEl = document.querySelector('.error');
 
 hiddenEl(errorEl);
