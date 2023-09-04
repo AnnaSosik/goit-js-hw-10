@@ -1,15 +1,25 @@
 import axios from 'axios';
+const BASE_URL = 'https://api.thecatapi.com/v1';
 
-function fetchBreeds() {
-  return axios.get(`/breeds`).then(response => {
-    return response.data;
-  });
+export function fetchBreeds() {
+    return axios.get(`${BASE_URL}/breeds`)
+        .then(resp => {
+            return resp.data;
+        })
+        .catch(err => {
+            throw new Error(err.message);
+        });
+
 }
 
-function fetchCatByBreed(catId) {
-  return axios.get(`/images/search?breed_ids=${catId}`).then(response => {
-    return response.data;
-  });
-}
+export function fetchCatByBreed(breedId) {
+    return axios.get(`${BASE_URL}/images/search?breed_ids=${breedId}`)
+        .then(resp => {
+            return resp.data;
+        })
+        .catch(err => {
+            throw new Error(err.message);
+      
+        });
 
-export { fetchBreeds, fetchCatByBreed };
+}

@@ -6,18 +6,26 @@ import { fetchBreeds, fetchCatByBreed } from './js/cat_API.js';
 axios.defaults.headers.common[
   'x-api-key'
 ] = `live_Z3nKbrIHqQNszgy3bN9dkMubAFP7Mq4NSWHKoSarK5tDotaXzTbe30ZsoUtQfCYv`;
+
 axios.defaults.baseURL = 'https://api.thecatapi.com/v1';
+
+
+
+function hide_loader(){
+	$("#cat-loader").removeClass("loader");}
 
 const breedSelector = document.querySelector('.breed-select');
 const catInfo = document.querySelector('.cat-info');
 const catLoader = document.querySelector('.loader');
-
 const errorEl = document.querySelector('.error');
 
 hiddenEl(errorEl);
 hiddenEl(breedSelector);
 
+
+
 breedSelector.addEventListener('change', onBreedChange);
+
 
 fetchBreeds()
   .then(data => {
@@ -25,13 +33,16 @@ fetchBreeds()
       element => `<option value="${element.id}">${element.name}</option>`
     );
     breedSelector.innerHTML = markupArr.join('');
+
     hiddenEl(breedSelector);
     hiddenEl(catLoader);
 
     new SlimSelect({
       select: '#single',
     });
+
   })
+
   .catch(
     error => (
       hiddenEl(errorEl),
@@ -40,24 +51,32 @@ fetchBreeds()
     )
   );
 
+  
 function onBreedChange(evt) {
   if (!evt.target.classList.contains('breed-select')) {
     return;
   } else {
+
     hiddenEl(catLoader);
     hiddenEl(catInfo);
+
     const catId = evt.target.value;
     fetchCatByBreed(catId)
       .then(data => {
+
         hiddenEl(catInfo);
+
         const { name, description, temperament } = data[0].breeds[0];
         catInfoMap(catInfo, data[0].url, name, description, temperament);
+
         hiddenEl(catLoader);
       })
       .catch(
         error => (
+
           hiddenEl(catLoader),
           hiddenEl(errorEl),
+
           Notiflix.Report.failure('Error', `${error}`)
         )
       );
